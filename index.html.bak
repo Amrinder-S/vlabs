@@ -1,0 +1,83 @@
+<html>
+<head>
+<title> Track Mouse </title>
+<style>
+.button {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.button1 {border-radius: 2px;}
+.button2 {border-radius: 4px;}
+.button3 {border-radius: 8px;}
+.button4 {border-radius: 12px;}
+.button5 {border-radius: 50%;}
+</style>
+</head>
+<body>
+<form name="Form1">
+POSX: <input type="text" id="xpos" name="posx"><br>
+POSY: <input type="text" id="ypos" name="posy"><br>
+</form>
+<button class="button button5" id="btnA" onclick="clicked()"></button>
+
+<canvas id="paint" width="200" height="100"></canvas>
+
+
+<script>
+var xpos = document.getElementById("xpos");
+var ypos = document.getElementById("ypos");
+var bool = false;
+
+function clicked() {
+bool = !(bool);
+}
+
+onmousemove = function(e){
+if(bool==true) {
+xpos.value = e.clientX
+ypos.value = e.clientY
+}
+}
+
+$(function() {
+  var letsdraw = false;
+
+  var theCanvas = document.getElementById('paint');
+  var ctx = theCanvas.getContext('2d');
+  theCanvas.width = 420;
+  theCanvas.height = 300;
+
+  var canvasOffset = $('#paint').offset();
+
+  $('#paint').mousemove(function(e) {
+    if (letsdraw === true) {
+      ctx.lineTo(e.pageX - canvasOffset.left, e.pageY - canvasOffset.top);
+      ctx.stroke();
+    }
+  });
+
+  $('#paint').mousedown(function() {
+    letsdraw = true;
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(e.pageX - canvasOffset.left, e.pageY - canvasOffset.top);
+  });
+
+  $(window).mouseup(function() {
+    letsdraw = false;
+  });
+});
+
+
+</script>
+</body>
+</html>

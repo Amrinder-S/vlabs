@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Task_3
+        </title>
+
+        <script src="https://cdn.jsdelivr.net/npm/leader-line-new@1.1.9/leader-line.min.js"></script>
+
+        <style>
+
+            .myPanel{
+                height: 450px;
+                width: 450px;
+                border-radius: 10px;
+                border: 3px solid blue;
+
+                position: relative;
+                top:120px;
+                left: 480px;
+            }
+
+            .myBtn{
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                background-color: #FC7F28;
+                border: hidden;
+
+            }
+            
+            .myBtn:hover{
+                background-color: red;
+            }
+
+            .myBtnn{
+                border: 3px solid black;
+                background-color: #1FB250;
+                color: black;
+                width: 70px;
+                height: 30px;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        
+
+        <div id="myDia_1" class="myPanel">
+
+            <h1 style="text-align:center;">Make Connections</h1>
+
+            <label for="A" style="position:relative; left:70px; top:30px">A</label>
+            <input type="button" class="myBtn" name="A" id="A" style="position:relative; left:70px; top:30px" value="-" onclick="buttonToggle(document.getElementById('A'))">
+
+            <label for="C" style="position:relative; left:20px; top:110px">C</label>
+            <input type="button" class="myBtn" name="C" id="C" style="position:relative; left:20px; top:110px" value="-" onclick="buttonToggle(document.getElementById('C'))">
+
+            <label for="E" style="position:relative; left:-25px; top:200px">E</label>
+            <input type="button" class="myBtn" name="E" id="E" style="position:relative; left:-25px; top:200px" value="-" onclick="buttonToggle(document.getElementById('E'))">
+
+            <input type="button" class="myBtn" name="B" id="B" style="position:relative; left:180px; top:30px" value="-" onclick="buttonToggle(document.getElementById('B'))">
+            <label for="B" style="position:relative; left:180px; top:30px">B</label>
+
+            <input type="button" class="myBtn" name="D" id="D" style="position:relative; left:130px; top:110px" value="-" onclick="buttonToggle(document.getElementById('D'))">
+            <label for="D" style="position:relative; left:130px; top:110px">D</label>
+
+            <input type="button" class="myBtn" name="F" id="F" style="position:relative; left:80px; top:200px" value="-" onclick="buttonToggle(document.getElementById('F'))">
+            <label for="F" style="position:relative; left:80px; top:200px">F</label>
+            
+            <input type="button" class="myBtnn" id="reset" value="Reset" style="position:relative; left: -20px; top:280px">
+            <input type="button" class="myBtnn" id="check" value="Check" style="position:relative; left: -250px; top:280px">
+
+        </div>
+
+    </body>
+
+    <script>
+        var arr = [];
+        
+        var A = document.getElementById("A")
+        var B = document.getElementById("B")
+        var C = document.getElementById("C")
+        var D = document.getElementById("D")
+        var E = document.getElementById("E")
+        var F = document.getElementById("F")
+
+        var Re = document.getElementById('reset')
+        var Ch = document.getElementById('check')
+
+        var Lcol = [A, C, E];
+
+        var conn = [];
+
+        var orderArr = [A, B, C, D, E, F]
+        var tokenArr = [1, 2, 4, 8, 16, 32]
+        var validNums = [3, 12, 48]
+        
+        function buttonToggle(btn){
+
+            if(conn.indexOf(btn)<0){
+                 
+                conn.push(btn) 
+
+                if(btn.value=='+'){
+                    btn.value = '-';
+                    btn.style.background="#FC7F28"
+                }
+                else if(btn.value=='-'){
+                    btn.value = '+';
+                    btn.style.background="red"
+                }
+
+                if(arr.length==0){
+                    arr.push(btn);
+                }
+                else{
+                    if((Lcol.indexOf(arr[0])<0) || (Lcol.indexOf(btn)<0)){
+                        var l = new LeaderLine(
+                            arr[0],
+                            btn,
+                            {color:"#434AB5", size:6}
+                        )
+                        arr.pop();
+                    }
+                    else{
+                        alert("Can't connect in same column")
+
+                        //arr[0].value="-";
+                        //arr[0].style.background="#FC7F28"
+                        btn.value="-"
+                        btn.style.background="#FC7F28"
+
+                        //arr.pop()
+                        //conn.pop(btn)
+                        conn.pop(arr[0])
+                    }
+                }
+                console.log(conn)
+            }   
+            else{
+                alert('Invalid Connection')
+            }
+        }
+
+        Re.onclick = function Refresh(){
+            window.location.reload("refresh")
+        }
+        
+        Ch.onclick = function Check(){
+            if(validNums.indexOf(tokenArr[orderArr.indexOf(conn[0])] + tokenArr[orderArr.indexOf(conn[1])]) >= 0){
+                console.log(tokenArr[orderArr.indexOf(conn[0])] + tokenArr[orderArr.indexOf(conn[1])])
+                if(validNums.indexOf(tokenArr[orderArr.indexOf(conn[2])] + tokenArr[orderArr.indexOf(conn[3])]) >= 0){
+                    console.log(tokenArr[orderArr.indexOf(conn[2])] + tokenArr[orderArr.indexOf(conn[3])])
+                    if(validNums.indexOf(tokenArr[orderArr.indexOf(conn[4])] + tokenArr[orderArr.indexOf(conn[5])]) >= 0){
+                        console.log(tokenArr[orderArr.indexOf(conn[4])] + tokenArr[orderArr.indexOf(conn[5])])
+                        alert("Right Connections")
+                    }
+                    else{
+                        alert("Wrong Connections")
+                    }
+                }
+                else{
+                    alert("Wrong Connections")
+                }
+            }
+            else{
+                alert("Wrong Connections")
+            }
+        } 
+    </script>
+</html>
