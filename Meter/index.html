@@ -1,0 +1,98 @@
+<!Doctype HTML>
+<HTML>
+    <head>
+        <title>Meter</title>
+        <script src="js\gauge.js"></script>
+    </head>
+    <body>
+        <input type="range" min="0" max="100" id="slider" value="50" oninput="changeTextBox()">
+        <input type="number" min="0" max="100" id="box" value="50" oninput="changeRangeSlider()">
+        <br>
+        <canvas id="meterGauze"></canvas>
+        <div id="preview-textfield"></div>
+        
+
+            <script>
+                var inputValue = document.getElementById("box");
+                var sliderValue = document.getElementById("slider");
+
+                function changeRangeSlider() {
+                    sliderValue.value = inputValue.value;
+                    gauge.set(inputValue.value);
+                }
+
+                function changeTextBox () {
+                    inputValue.value = sliderValue.value;
+                    gauge.set(sliderValue.value);
+                }
+
+                var opts = {
+    // color configs
+    colorStart: "#6fadcf",
+    colorStop: void 0,
+    gradientType: 0,
+    strokeColor: "#e0e0e0",
+    generateGradient: true,
+    percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
+    // customize pointer
+    pointer: {
+      length: 0.8,
+      strokeWidth: 0.025,
+      iconScale: 0.30
+    },
+    // static labels
+    staticLabels: {
+      font: "10px sans-serif",
+      labels: [0,10,20,30,40,50,60,70,80,90,100],
+      fractionDigits: 0
+    },
+    // static zones
+    staticZones: [
+      {strokeStyle: "#00FF00", min: 0, max: 30},
+      {strokeStyle: "#FFFF00", min: 30, max: 70},
+      {strokeStyle: "#FF0000", min: 70, max: 100},
+
+
+    ],
+    // render ticks
+    renderTicks: {
+      divisions: 10,
+      divWidth: 1.1,
+      divLength: 0.7,
+      divColor: "#333333",
+      subDivisions: 3,
+      subLength: 0.5,
+      subWidth: 0.6,
+      subColor: "#666666"
+    },
+    // the span of the gauge arc
+    angle: 0,
+    // line thickness
+    lineWidth: 0.60,
+    // radius scale
+    radiusScale: 1.0,
+    // font size
+    fontSize: 40,
+    // if false, max value increases automatically if value > maxValue
+    limitMax: false,
+    // if true, the min value of the gauge will be fixed
+    limitMin: false,
+    // High resolution support
+    highDpiSupport: true
+};
+
+var target = document.getElementById('meterGauze'); 
+var gauge = new Gauge(target).setOptions(opts);
+
+document.getElementById("preview-textfield").className = "preview-textfield";
+gauge.setTextField(document.getElementById("preview-textfield"));
+
+gauge.maxValue = 100;
+gauge.setMinValue(0); 
+gauge.set(0)
+
+
+gauge.animationSpeed = 5
+            </script>
+    </body>
+</HTML>
